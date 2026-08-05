@@ -49,7 +49,10 @@ productsHtml += `
     </div>
 `;
 });
+    // Ceci est un test pour voir si tout fonctionne correctement
 
+
+    document.querySelector('.js-add-to-card').innerHTML='fioun';
 document.querySelector(".js-products-grid").innerHTML = productsHtml;
 
 document.querySelectorAll('.js-add-to-card').forEach((button)=>{
