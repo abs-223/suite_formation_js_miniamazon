@@ -1,3 +1,5 @@
+import {cart} from '../data/cart.js';
+
 let productsHtml = "";
 products.forEach((product) => {
 productsHtml += `
@@ -40,7 +42,7 @@ productsHtml += `
 
         <div class="product-spacer"></div>
 
-        <div class="added-to-cart">
+        <div class="added-to-cart js-added-to-cart-${product.id}">
         <img src="images/icons/checkmark.png" />
         Added
         </div>
@@ -54,9 +56,13 @@ productsHtml += `
 
 document.querySelector(".js-products-grid").innerHTML = productsHtml;
 
+const addedTimeoutid ={};
+
+
 document.querySelectorAll('.js-add-to-card').forEach((button)=>{
     button.addEventListener('click',()=>{
-        const productId=button.dataset.productId;
+        // au lieu de const productId=button.dataset.productId
+        const {productId}=button.dataset;
         
         let matchingItem;
 
@@ -74,17 +80,38 @@ document.querySelectorAll('.js-add-to-card').forEach((button)=>{
         }
         else{cart.push(
             {
-                productId:productId,
-                quantity : quantity
+                //Au lieu de productId:productId et quantity:quantity
+                productId,
+                quantity
             }
         );
     }
     let totalQuantity=0;
         cart.forEach((item)=>{
             totalQuantity+=item.quantity;
-        })
+        });
+        console.log(cart)
 
         document.querySelector('.js-cart-quantity').innerHTML=totalQuantity;
-        
-    })
+
+
+    //added to cart
+    const addedToCart = document.querySelector(`.js-added-to-cart-${productId}`);
+    addedToCart.classList.add('added-to-cart-visible');
+    
+    const lastAddedMessage = addedTimeoutid[productId];//ensuite il vient ici
+    //puis on vérifie s'il est là
+    if(lastAddedMessage){
+        clearTimeout(lastAddedMessage);
+    console.log(addedTimeoutid[productId])
+
+    }
+    
+    let timeoutId = setTimeout(()=>{
+        addedToCart.classList.remove('added-to-cart-visible');
+
+    },2000);
+    // etape1 : tu stockes lid ici 
+    addedTimeoutid[productId]=timeoutId;
+})
 })
