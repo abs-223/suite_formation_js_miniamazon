@@ -1,4 +1,4 @@
-import {cart} from '../data/cart.js';
+import {cart, addToCart} from '../data/cart.js';
 import {products} from '../data/products.js'
 
 let productsHtml = "";
@@ -57,62 +57,27 @@ productsHtml += `
 
 document.querySelector(".js-products-grid").innerHTML = productsHtml;
 
-const addedTimeoutid ={};
+
+
+function updateCartQuantity(){
+    let totalQuantity=0;
+        cart.forEach((cartItem)=>{
+            totalQuantity+=cartItem.quantity;
+        });
+        console.log(cart)
+
+        document.querySelector('.js-cart-quantity').innerHTML=totalQuantity;
+}
+
+
 
 
 document.querySelectorAll('.js-add-to-card').forEach((button)=>{
     button.addEventListener('click',()=>{
         // au lieu de const productId=button.dataset.productId
         const {productId}=button.dataset;
-        
-        let matchingItem;
-
-        let quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
-        
-
-        cart.forEach((item)=>{
-
-            if(productId === item.productId ){
-                matchingItem=item;
-            }
-        })
-        if(matchingItem){
-            matchingItem.quantity+=quantity;
-        }
-        else{cart.push(
-            {
-                //Au lieu de productId:productId et quantity:quantity
-                productId,
-                quantity
-            }
-        );
-    }
-    let totalQuantity=0;
-        cart.forEach((item)=>{
-            totalQuantity+=item.quantity;
-        });
-        console.log(cart)
-
-        document.querySelector('.js-cart-quantity').innerHTML=totalQuantity;
-
-
-    //added to cart
-    const addedToCart = document.querySelector(`.js-added-to-cart-${productId}`);
-    addedToCart.classList.add('added-to-cart-visible');
+        addToCart(productId);
+        updateCartQuantity();
     
-    const lastAddedMessage = addedTimeoutid[productId];//ensuite il vient ici
-    //puis on vérifie s'il est là
-    if(lastAddedMessage){
-        clearTimeout(lastAddedMessage);
-    console.log(addedTimeoutid[productId])
-
-    }
-    
-    let timeoutId = setTimeout(()=>{
-        addedToCart.classList.remove('added-to-cart-visible');
-
-    },2000);
-    // etape1 : tu stockes lid ici 
-    addedTimeoutid[productId]=timeoutId;
 })
 })
