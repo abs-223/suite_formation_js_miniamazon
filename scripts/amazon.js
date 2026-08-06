@@ -61,7 +61,6 @@ document.querySelectorAll('.js-add-to-card').forEach((button)=>{
         
         let matchingItem;
         cart.forEach((item)=>{
-
             if(productId === item.productId ){
                 matchingItem=item;
             }
