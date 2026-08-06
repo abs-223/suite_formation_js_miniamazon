@@ -1,3 +1,6 @@
+import {cart, addToCart} from '../data/cart.js';
+import {products} from '../data/products.js'
+
 let productsHtml = "";
 products.forEach((product) => {
 productsHtml += `
@@ -24,7 +27,7 @@ productsHtml += `
         <div class="product-price">$${(product.priceCents / 100).toFixed(2)}</div>
 
         <div class="product-quantity-container">
-        <select>
+        <select class="js-quantity-selector-${product.id}">
             <option selected value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -40,7 +43,7 @@ productsHtml += `
 
         <div class="product-spacer"></div>
 
-        <div class="added-to-cart">
+        <div class="added-to-cart js-added-to-cart-${product.id}">
         <img src="images/icons/checkmark.png" />
         Added
         </div>
@@ -52,11 +55,26 @@ productsHtml += `
     // Ceci est un test pour voir si tout fonctionne correctement
 
 
-    document.querySelector('.js-add-to-card').innerHTML='fioun';
 document.querySelector(".js-products-grid").innerHTML = productsHtml;
+
+
+
+function updateCartQuantity(){
+    let totalQuantity=0;
+        cart.forEach((cartItem)=>{
+            totalQuantity+=cartItem.quantity;
+        });
+        console.log(cart)
+
+        document.querySelector('.js-cart-quantity').innerHTML=totalQuantity;
+}
+
+
+
 
 document.querySelectorAll('.js-add-to-card').forEach((button)=>{
     button.addEventListener('click',()=>{
+<<<<<<< HEAD
         const productId=button.dataset.productId;
         
         let matchingItem;
@@ -82,4 +100,12 @@ document.querySelectorAll('.js-add-to-card').forEach((button)=>{
         document.querySelector('.js-cart-quantity').innerHTML=totalQuantity;
         
     })
+=======
+        // au lieu de const productId=button.dataset.productId
+        const {productId}=button.dataset;
+        addToCart(productId);
+        updateCartQuantity();
+    
+})
+>>>>>>> bdf58cb474fd3ac6e601b60c60599e55ef619db8
 })
