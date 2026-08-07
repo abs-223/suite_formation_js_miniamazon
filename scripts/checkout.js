@@ -35,9 +35,16 @@ cart.forEach((cartItem)=>{
                   <span>
                     Quantity: <span class="quantity-label">${cartItem.quantity}</span>
                   </span>
-                  <span class="update-quantity-link link-primary">
+                  <span class="update-quantity-link link-primary js-update-link" data-product-id='${matchingProduct.id}'>
                     Update
                   </span>
+
+
+                  <!-- ajout de cette classe pour rendre le bouton update interactif-->
+                  <input class="quantity-input">
+                  <span class="save-quantity-link link-primary" data-product-id='${matchingProduct.id}'>Save</span>
+
+
                   <span class="delete-quantity-link link-primary js-delete-link" data-product-id='${matchingProduct.id}'>
                     Delete
                   </span>
@@ -91,7 +98,7 @@ cart.forEach((cartItem)=>{
             </div>
           </div>
     `;
-    console.log(matchingProduct)
+    // console.log(matchingProduct)
     document.querySelector('.js-order-summary').innerHTML=cartHtml;
 
     document.querySelectorAll('.js-delete-link').forEach((link)=>{
@@ -104,7 +111,49 @@ cart.forEach((cartItem)=>{
         container.remove();
         
         console.log(container);
+        updateCartQuantity()
       })
 
     })
+    updateCartQuantity();
+
+    // Pour l'update
+    document.querySelectorAll('.js-update-link').forEach((link)=>{
+      link.addEventListener('click', ()=>{
+
+        const {productId}= link.dataset;
+        console.log(productId);
+        // Faire apparaître el buton save et l'input
+        document.querySelector(`.js-cart-item-container-${productId}`).classList.add("is-editing-quantity")
+        // Faire disparaitre le button update et qt
+      
+      })
+    })
+
+    //Pour le bouton save
+    document.querySelectorAll('.save-quantity-link').forEach((link)=>{
+      link.addEventListener('click',()=>{
+        const {productId}= link.dataset;
+        // console.log(productId);
+        // Faire apparaître update à nouveau
+        document.querySelector(`.js-cart-item-container-${productId}`).classList.remove("is-editing-quantity")
+
+
+        //recup la valeur de l'input
+        
+
+
+      })
+    })
+
+
 })
+function updateCartQuantity(){
+    let totalQuantity=0;
+        cart.forEach((cartItem)=>{
+            totalQuantity+=cartItem.quantity;
+        });
+        // console.log(cart)
+
+        document.querySelector('.js-checkout-item').innerHTML=totalQuantity;
+      }

@@ -209,3 +209,25 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
+.quantity-input{
+  width: 30px;
+}
+.quantity-input, .save-quantity-link{
+  display: none;
+}
+
+/* Pour faire venir l'input et save */
+.is-editing-quantity .quantity-input{
+  display: initial;
+}
+.is-editing-quantity .save-quantity-link{
+  display: initial;
+}
+
+/* Pour faire dispaître le udpate et qte */
+.is-editing-quantity .quantity-label{
+  display: none;
+}
+.is-editing-quantity .js-update-link{
+  display: none;
+}
