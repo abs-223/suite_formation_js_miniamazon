@@ -1,4 +1,7 @@
-export let cart=[
+export let cart= JSON.parse(localStorage.getItem('cart'))
+
+if(!cart){
+    cart = [
     {
         productId : '83d4ca15-0f35-48f5-b7a3-1ea210004f2e',
         quantity : 2
@@ -8,6 +11,11 @@ export let cart=[
         quantity : 1
     }
 ];
+}
+
+function saveToMemory(){
+    localStorage.setItem('cart', JSON.stringify(cart))   
+}
 
 export function addToCart(productId){ 
     let matchingItem;
@@ -24,7 +32,8 @@ export function addToCart(productId){
         if(matchingItem){
             matchingItem.quantity+=quantity;
         }
-        else{cart.push(
+        else{
+            cart.push(
             {
                 //Au lieu de productId:productId et quantity:quantity
                 productId,
@@ -32,6 +41,10 @@ export function addToCart(productId){
             }
         );
     }
+
+    // Pour enregistrer dans la mémoire à chaque fois qu'on update
+saveToMemory();
+
 const addedTimeoutid ={};
 
     //added to cart
@@ -61,4 +74,7 @@ export function removeFromCart(productId){
         }
     });
     cart =newCart;
+
+    // Pour enregistrer encore dans la mémoire 
+    saveToMemory();
 }
