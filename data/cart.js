@@ -17,6 +17,32 @@ function saveToMemory(){
     localStorage.setItem('cart', JSON.stringify(cart))   
 }
 
+//  fonction pour update la quantité de la carte avec le bouton update
+    export function updateQuantity(productId,newQuantity){
+    let matchingItem;
+
+        cart.forEach((cartItem)=>{
+            if(productId===cartItem.productId){
+                matchingItem=cartItem;
+            }
+        });
+        matchingItem.quantity=newQuantity;
+        saveToMemory();
+        document.querySelector(`.js-quantity-label-${productId}`).innerHTML=newQuantity;
+        updateCartQuantity();
+            
+    }
+    function updateCartQuantity(){
+    let totalQuantity=0;
+        cart.forEach((cartItem)=>{
+            totalQuantity+=cartItem.quantity;
+        });
+        // console.log(cart)
+
+        document.querySelector('.js-checkout-item').innerHTML=totalQuantity;
+      }
+
+
 export function addToCart(productId){ 
     let matchingItem;
 
