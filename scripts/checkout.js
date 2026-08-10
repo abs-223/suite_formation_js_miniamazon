@@ -1,6 +1,12 @@
 import { cart, removeFromCart,updateQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
 
+
+
+  const date=dayjs();
+  date.add(8,'days');
+  console.log(date.format('dddd, MMMM,D'));
+
     let cartHtml='';
 cart.forEach((cartItem)=>{
 
