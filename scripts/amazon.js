@@ -52,6 +52,7 @@ productsHtml += `
     </div>
 `;
 });
+updateCartQuantity();
     // Ceci est un test pour voir si tout fonctionne correctement
 
 
