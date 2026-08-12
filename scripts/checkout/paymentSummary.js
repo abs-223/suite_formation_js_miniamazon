@@ -29,7 +29,7 @@ export function renderPaymentSummary(){
           </div>
 
           <div class="payment-summary-row">
-            <div>Items (3):</div>
+            <div class="js-items-total">Items </div>
             <div class="payment-summary-money">$${(productPriceCents/100).toFixed(2)}</div>
           </div>
 
@@ -57,6 +57,7 @@ export function renderPaymentSummary(){
             Place your order
           </button>
     `
+        // document.querySelector('.js-items-total').innerHTML=totalQuantity;
 
     document.querySelector('.js-payment-summary').innerHTML= paymentSummaryHTML;
 

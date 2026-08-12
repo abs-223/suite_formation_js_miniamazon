@@ -7,10 +7,12 @@ import {
 import { products,getProduct } from "../../data/products.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import { deliveryOptions,getDeliveryOption } from "../../data/deliveryOptions.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 
-const date = dayjs();
-date.add(8, "days");
-console.log(date.format("dddd, MMMM,D"));
+// Pour apprendre les librairies externes avec dayjs
+// const date = dayjs();
+// date.add(8, "days");
+// console.log(date.format("dddd, MMMM,D"));
 
   export function renderOrderSummary() {
     let cartHtml = "";
@@ -125,6 +127,8 @@ console.log(date.format("dddd, MMMM,D"));
         );
         container.remove();
 
+        renderPaymentSummary();
+
         console.log(container);
         updateCartQuantity();
       });
@@ -168,6 +172,8 @@ console.log(date.format("dddd, MMMM,D"));
         document
           .querySelector(`.js-cart-item-container-${productId}`)
           .classList.remove("is-editing-quantity");
+
+        renderPaymentSummary();
       });
     });
 
@@ -179,6 +185,7 @@ console.log(date.format("dddd, MMMM,D"));
       // console.log(cart)
 
       document.querySelector(".js-checkout-item").innerHTML = totalQuantity;
+      // document.querySelector(".js-items-total").innerHTML = totalQuantity;
     }
 
     document.querySelectorAll(".js-delivery-option").forEach((element) => {
@@ -186,6 +193,7 @@ console.log(date.format("dddd, MMMM,D"));
         const { productId, deliveryOptionId } = element.dataset;
         updateDeliveryOption(productId, deliveryOptionId);
         renderOrderSummary();
+        renderPaymentSummary();
       });
     });
 }
