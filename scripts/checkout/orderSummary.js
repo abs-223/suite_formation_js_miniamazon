@@ -5,8 +5,7 @@ import {
   updateDeliveryOption,
 } from "../../data/cart.js";
 import { products,getProduct } from "../../data/products.js";
-import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
-import { deliveryOptions,getDeliveryOption } from "../../data/deliveryOptions.js";
+import { deliveryOptions,getDeliveryOption,calculateDeliveryDate } from "../../data/deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 
 // Pour apprendre les librairies externes avec dayjs
@@ -28,9 +27,7 @@ import { renderPaymentSummary } from "./paymentSummary.js";
 
       const deliveryOption= getDeliveryOption(deliveryOptionId);
 
-      const today = dayjs();
-      const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
-      const dateString = deliveryDate.format("dddd, MMMM D");
+      const dateString=calculateDeliveryDate(deliveryOption);
 
       cartHtml += `
           <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
@@ -79,13 +76,15 @@ import { renderPaymentSummary } from "./paymentSummary.js";
             </div>
       `;
     });
+    
+
+
     function deliveryOptionsHTML(matchingProduct, cartItem) {
       let html = "";
 
       deliveryOptions.forEach((deliveryOption) => {
-        const today = dayjs();
-        const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
-        const dateString = deliveryDate.format("dddd, MMMM, D");
+      const dateString=calculateDeliveryDate(deliveryOption);
+      
         const priceString =
           deliveryOption.priceCents === 0
             ? "FREE"
@@ -122,14 +121,16 @@ import { renderPaymentSummary } from "./paymentSummary.js";
         const { productId } = link.dataset;
         removeFromCart(productId);
 
-        const container = document.querySelector(
-          `.js-cart-item-container-${productId}`,
-        );
-        container.remove();
+        // const container = document.querySelector(
+        //   `.js-cart-item-container-${productId}`,
+        // );
+        // container.remove();
+        //la méthode en haut est plus fast et ergonomique 
+        renderOrderSummary();
 
         renderPaymentSummary();
 
-        console.log(container);
+        // console.log(container);
         updateCartQuantity();
       });
     });
@@ -169,9 +170,10 @@ import { renderPaymentSummary } from "./paymentSummary.js";
 
         updateQuantity(productId, newQuantity);
 
-        document
-          .querySelector(`.js-cart-item-container-${productId}`)
-          .classList.remove("is-editing-quantity");
+        // document
+        //   .querySelector(`.js-cart-item-container-${productId}`)
+        //   .classList.remove("is-editing-quantity");
+        renderOrderSummary();
 
         renderPaymentSummary();
       });
