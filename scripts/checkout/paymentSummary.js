@@ -69,3 +69,11 @@ export function renderPaymentSummary(){
 
 
 } 
+
+export function testJasmine(fioun){
+
+  let result = fioun*5;
+
+  return result;
+
+}
