@@ -23,13 +23,19 @@ export function renderPaymentSummary(){
     const taxCent = totalBeforeTaxe*0.1;
     const totalCents = totalBeforeTaxe+ taxCent;
 
+    //POur mettre le nombre d'items dans la partie paiements à jour
+    let nbrItems = 0;
+          cart.forEach((cartItem) => {
+            nbrItems += cartItem.quantity;
+          });
+
     const paymentSummaryHTML = `
          <div class="payment-summary-title">
             Order Summary
           </div>
 
           <div class="payment-summary-row">
-            <div class="js-items-total">Items </div>
+            <div class="js-items-total"> Item(s) : ${nbrItems}</div>
             <div class="payment-summary-money">$${(productPriceCents/100).toFixed(2)}</div>
           </div>
 
