@@ -43,7 +43,7 @@ function saveToMemory(){
         // console.log(cart)
 
         document.querySelector('.js-checkout-item').innerHTML=totalQuantity;
-      }
+    }
 
 
 export function addToCart(productId){ 

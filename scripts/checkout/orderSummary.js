@@ -6,11 +6,13 @@ import {
 } from "../../data/cart.js";
 import { products,getProduct } from "../../data/products.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
-import { deliveryOptions } from "../../data/deliveryOptions.js";
+import { deliveryOptions,getDeliveryOption } from "../../data/deliveryOptions.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 
-const date = dayjs();
-date.add(8, "days");
-console.log(date.format("dddd, MMMM,D"));
+// Pour apprendre les librairies externes avec dayjs
+// const date = dayjs();
+// date.add(8, "days");
+// console.log(date.format("dddd, MMMM,D"));
 
   export function renderOrderSummary() {
     let cartHtml = "";
@@ -23,17 +25,8 @@ console.log(date.format("dddd, MMMM,D"));
 
       const deliveryOptionId = cartItem.deliveryOptionsId;
 
-      let deliveryOption;
-      deliveryOptions.forEach((option) => {
-        if (option.id === deliveryOptionId) {
-          deliveryOption = option;
-        }
-        //JE jure qu'il ya deux secondes ça ne fonctionnait pas je sais pourquoi là comme par magie ça good alors qu'il n'y avait rien de bizarre
 
-        // console.log(option.id, deliveryOptionId)
-        // console.log(typeof(option.id))
-        // console.log(typeof(deliveryOptionId))
-      });
+      const deliveryOption= getDeliveryOption(deliveryOptionId);
 
       const today = dayjs();
       const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
@@ -134,6 +127,8 @@ console.log(date.format("dddd, MMMM,D"));
         );
         container.remove();
 
+        renderPaymentSummary();
+
         console.log(container);
         updateCartQuantity();
       });
@@ -177,6 +172,8 @@ console.log(date.format("dddd, MMMM,D"));
         document
           .querySelector(`.js-cart-item-container-${productId}`)
           .classList.remove("is-editing-quantity");
+
+        renderPaymentSummary();
       });
     });
 
@@ -188,6 +185,7 @@ console.log(date.format("dddd, MMMM,D"));
       // console.log(cart)
 
       document.querySelector(".js-checkout-item").innerHTML = totalQuantity;
+      // document.querySelector(".js-items-total").innerHTML = totalQuantity;
     }
 
     document.querySelectorAll(".js-delivery-option").forEach((element) => {
@@ -195,6 +193,7 @@ console.log(date.format("dddd, MMMM,D"));
         const { productId, deliveryOptionId } = element.dataset;
         updateDeliveryOption(productId, deliveryOptionId);
         renderOrderSummary();
+        renderPaymentSummary();
       });
     });
 }
