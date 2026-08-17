@@ -1,9 +1,11 @@
+function Cart(localStorageKey){
+
 const cart ={
     cartItem : undefined ,
 
 loadFromStorage(){
     
-this.cartItem = JSON.parse(localStorage.getItem('cart-oop'))
+this.cartItem = JSON.parse(localStorage.getItem(localStorageKey))
 
 if(!this.cartItem){
     this.cartItem = [
@@ -22,12 +24,12 @@ if(!this.cartItem){
 }
 },
     saveToMemory(){
-    localStorage.setItem('cart-oop', JSON.stringify(this.cartItem))   
+    localStorage.setItem(localStorageKey, JSON.stringify(this.cartItem))   
 },
 
 
     addToCart(productId){ 
-    let quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+    // let quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
     let matchingItem;
 
     this.cartItem.forEach((cartItem)=>{
@@ -37,14 +39,14 @@ if(!this.cartItem){
             }
         })
         if(matchingItem){
-            matchingItem.quantity+=quantity;
+            matchingItem.quantity+=1;
         }
         else{
             this.cartItem.push(
             {
                 //Au lieu de productId:productId et quantity:quantity
                 productId,
-                quantity,
+                quantity:1,
                 deliveryOptionsId : '1'
             }
         );
@@ -53,26 +55,28 @@ if(!this.cartItem){
     // Pour enregistrer dans la mémoire à chaque fois qu'on update
     this.saveToMemory();
 
-const addedTimeoutid ={};
+    // Remove all of this code below so the rest can work
 
-    //added to cart
-    const addedToCart = document.querySelector(`.js-added-to-cart-${productId}`);
-    addedToCart.classList.add('added-to-cart-visible');
+// const addedTimeoutid ={};
+
+//     //added to cart
+//     const addedToCart = document.querySelector(`.js-added-to-cart-${productId}`);
+//     addedToCart.classList.add('added-to-cart-visible');
     
-    const lastAddedMessage = addedTimeoutid[productId];//ensuite il vient ici
-    //puis on vérifie s'il est là
-    if(lastAddedMessage){
-        clearTimeout(lastAddedMessage);
-    console.log(addedTimeoutid[productId])
+//     const lastAddedMessage = addedTimeoutid[productId];//ensuite il vient ici
+//     //puis on vérifie s'il est là
+//     if(lastAddedMessage){
+//         clearTimeout(lastAddedMessage);
+//     console.log(addedTimeoutid[productId])
 
-    }
+//     }
     
-    let timeoutId = setTimeout(()=>{
-        addedToCart.classList.remove('added-to-cart-visible');
+//     let timeoutId = setTimeout(()=>{
+//         addedToCart.classList.remove('added-to-cart-visible');
 
-    },2000);
-    // etape1 : tu stockes lid ici 
-    addedTimeoutid[productId]=timeoutId;
+//     },2000);
+//     // etape1 : tu stockes lid ici 
+//     addedTimeoutid[productId]=timeoutId;
 },
 
 removeFromCart(productId){
@@ -103,7 +107,18 @@ updateDeliveryOption(productId, deliveryOptionId){
 }
 };
 
+return cart;
+}
+
+const cart = Cart('cart-oop');
+const businessCart=Cart('business-cart');
+
 cart.loadFromStorage();
+businessCart.loadFromStorage();
+
+// cart.addToCart('dd82ca78-a18b-4e2a-9250-31e67412f98d');
+console.log(cart);
+console.log(businessCart);
 
 
 
