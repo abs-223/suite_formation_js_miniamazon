@@ -1,12 +1,12 @@
-export let cart; 
+const cart ={
+    cartItem : undefined ,
 
-loadFromStorage();
-export function loadFromStorage(){
+loadFromStorage(){
     
-cart = JSON.parse(localStorage.getItem('cart'))
+this.cartItem = JSON.parse(localStorage.getItem('cart-oop'))
 
-if(!cart){
-    cart = [
+if(!this.cartItem){
+    this.cartItem = [
     {
         productId : '83d4ca15-0f35-48f5-b7a3-1ea210004f2e',
         quantity : 2,
@@ -20,11 +20,95 @@ if(!cart){
     }
 ];
 }
-}
-function saveToMemory(){
-    localStorage.setItem('cart', JSON.stringify(cart))   
-}
+},
+    saveToMemory(){
+    localStorage.setItem('cart-oop', JSON.stringify(this.cartItem))   
+},
 
+
+    addToCart(productId){ 
+    let quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
+    let matchingItem;
+
+    this.cartItem.forEach((cartItem)=>{
+
+            if(productId === cartItem.productId ){
+                matchingItem=cartItem;
+            }
+        })
+        if(matchingItem){
+            matchingItem.quantity+=quantity;
+        }
+        else{
+            this.cartItem.push(
+            {
+                //Au lieu de productId:productId et quantity:quantity
+                productId,
+                quantity,
+                deliveryOptionsId : '1'
+            }
+        );
+    }
+
+    // Pour enregistrer dans la mémoire à chaque fois qu'on update
+    this.saveToMemory();
+
+const addedTimeoutid ={};
+
+    //added to cart
+    const addedToCart = document.querySelector(`.js-added-to-cart-${productId}`);
+    addedToCart.classList.add('added-to-cart-visible');
+    
+    const lastAddedMessage = addedTimeoutid[productId];//ensuite il vient ici
+    //puis on vérifie s'il est là
+    if(lastAddedMessage){
+        clearTimeout(lastAddedMessage);
+    console.log(addedTimeoutid[productId])
+
+    }
+    
+    let timeoutId = setTimeout(()=>{
+        addedToCart.classList.remove('added-to-cart-visible');
+
+    },2000);
+    // etape1 : tu stockes lid ici 
+    addedTimeoutid[productId]=timeoutId;
+},
+
+removeFromCart(productId){
+    const newCart =[];
+    this.cartItem.forEach((cartItem)=>{
+        if(cartItem.productId!== productId){
+            newCart.push(cartItem);
+        }
+    });
+    this.cartItem = newCart;
+
+    // Pour enregistrer encore dans la mémoire 
+    this.saveToMemory();
+},
+
+updateDeliveryOption(productId, deliveryOptionId){
+    let matchingItem;
+
+    this.cartItem.forEach((cartItem)=>{
+
+            if(productId === cartItem.productId ){
+                matchingItem=cartItem;
+            }
+        })
+
+        matchingItem.deliveryOptionsId= deliveryOptionId;
+        this.saveToMemory();
+}
+};
+
+cart.loadFromStorage();
+
+
+
+
+//Apres voir pourquoi moi il me reste tout ça ? 
 //  fonction pour update la quantité de la carte avec le bouton update
     export function updateQuantity(productId,newQuantity){
     let matchingItem;
@@ -51,77 +135,6 @@ function saveToMemory(){
     }
 
 
-export function addToCart(productId){ 
-    let quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
-    let matchingItem;
 
-    cart.forEach((cartItem)=>{
 
-            if(productId === cartItem.productId ){
-                matchingItem=cartItem;
-            }
-        })
-        if(matchingItem){
-            matchingItem.quantity+=quantity;
-        }
-        else{
-            cart.push(
-            {
-                //Au lieu de productId:productId et quantity:quantity
-                productId,
-                quantity,
-                deliveryOptionsId : '1'
-            }
-        );
-    }
 
-    // Pour enregistrer dans la mémoire à chaque fois qu'on update
-saveToMemory();
-
-const addedTimeoutid ={};
-
-    //added to cart
-    const addedToCart = document.querySelector(`.js-added-to-cart-${productId}`);
-    addedToCart.classList.add('added-to-cart-visible');
-    
-    const lastAddedMessage = addedTimeoutid[productId];//ensuite il vient ici
-    //puis on vérifie s'il est là
-    if(lastAddedMessage){
-        clearTimeout(lastAddedMessage);
-    console.log(addedTimeoutid[productId])
-
-    }
-    
-    let timeoutId = setTimeout(()=>{
-        addedToCart.classList.remove('added-to-cart-visible');
-
-    },2000);
-    // etape1 : tu stockes lid ici 
-    addedTimeoutid[productId]=timeoutId;
-}
-export function removeFromCart(productId){
-    const newCart =[];
-    cart.forEach((cartItem)=>{
-        if(cartItem.productId!== productId){
-            newCart.push(cartItem);
-        }
-    });
-    cart =newCart;
-
-    // Pour enregistrer encore dans la mémoire 
-    saveToMemory();
-}
-
-export function updateDeliveryOption(productId, deliveryOptionId){
-    let matchingItem;
-
-    cart.forEach((cartItem)=>{
-
-            if(productId === cartItem.productId ){
-                matchingItem=cartItem;
-            }
-        })
-
-        matchingItem.deliveryOptionsId= deliveryOptionId;
-        saveToMemory();
-}
