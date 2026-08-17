@@ -1,19 +1,20 @@
 class Cart{
 
     cartItem ;
-    localStorageKey;
+    // Pour la mettre en privée on doit mettre un # ici et aussi dans l'objet
+    #localStorageKey;
 
     constructor(localStorageKey){
-        this.localStorageKey= localStorageKey,
-        this.loadFromStorage();
+        this.#localStorageKey= localStorageKey,
+        this.#loadFromStorage();
     }
 
 
-    loadFromStorage(){
+#loadFromStorage(){
     
-this.cartItem = JSON.parse(localStorage.getItem(this.localStorageKey))
+    this.cartItem = JSON.parse(localStorage.getItem(this.#localStorageKey))
 
-if(!this.cartItem){
+    if(!this.cartItem){
     this.cartItem = [
     {
         productId : '83d4ca15-0f35-48f5-b7a3-1ea210004f2e',
@@ -31,7 +32,7 @@ if(!this.cartItem){
 };
 
  saveToMemory(){
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItem))   
+    localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItem))   
 };
 
 addToCart(productId){ 
@@ -125,5 +126,9 @@ const businessCart=new Cart('cart-business');
 
 
 // cart.addToCart('dd82ca78-a18b-4e2a-9250-31e67412f98d');
+
+
+//Just to show u that u cannot use private properties outside the class
+// cart.#localStorageKey='bonjour';
 console.log(cart);
 console.log(businessCart); 
