@@ -79,6 +79,41 @@ class Product {
   // console.log(tshirt.getPrice());
 
 
+
+// Test pour la classe date()
+  // const date = new Date();
+  // console.log(date);
+  // console.log(date.toLocaleTimeString());
+
+
+
+//Le code ci dessous ne fonctionnera pas car à ce moment du code l'obj2 n'est pas encore créé donc le this ne peut pas faire référence à l'obj2
+
+// const obj2 = {
+//   a: "bonnjourtest",
+//   b : this.a
+// }
+
+
+// Dans la première fonction on peut changer à tout moment le contenu de la fonction en utilisant la propriété .call
+// function logThis(){
+//   console.log(this);
+// }
+// logThis();
+// logThis.call('bonjour_toi');
+
+//Mais ici on ne peut pas changer le contenu de la fonction car c'est une fonction fléchée et le this fait référence à l'objet dans lequel elle est contenue
+// donc il restera undefined
+
+// this
+// const obj3={
+//   method:()=>{
+//     console.log(this);
+//   }
+// }
+// obj3.method();
+
+
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
