@@ -1,13 +1,20 @@
-function Cart(localStorageKey){
+class Cart{
 
-const cart ={
-    cartItem : undefined ,
+    cartItem ;
+    // Pour la mettre en privée on doit mettre un # ici et aussi dans l'objet
+    #localStorageKey;
 
-loadFromStorage(){
+    constructor(localStorageKey){
+        this.#localStorageKey= localStorageKey,
+        this.#loadFromStorage();
+    }
+
+
+#loadFromStorage(){
     
-this.cartItem = JSON.parse(localStorage.getItem(localStorageKey))
+    this.cartItem = JSON.parse(localStorage.getItem(this.#localStorageKey))
 
-if(!this.cartItem){
+    if(!this.cartItem){
     this.cartItem = [
     {
         productId : '83d4ca15-0f35-48f5-b7a3-1ea210004f2e',
@@ -22,13 +29,13 @@ if(!this.cartItem){
     }
 ];
 }
-},
-    saveToMemory(){
-    localStorage.setItem(localStorageKey, JSON.stringify(this.cartItem))   
-},
+};
 
+ saveToMemory(){
+    localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItem))   
+};
 
-    addToCart(productId){ 
+addToCart(productId){ 
     // let quantity = Number(document.querySelector(`.js-quantity-selector-${productId}`).value);
     let matchingItem;
 
@@ -77,7 +84,7 @@ if(!this.cartItem){
 //     },2000);
 //     // etape1 : tu stockes lid ici 
 //     addedTimeoutid[productId]=timeoutId;
-},
+};
 
 removeFromCart(productId){
     const newCart =[];
@@ -90,7 +97,7 @@ removeFromCart(productId){
 
     // Pour enregistrer encore dans la mémoire 
     this.saveToMemory();
-},
+};
 
 updateDeliveryOption(productId, deliveryOptionId){
     let matchingItem;
@@ -105,51 +112,23 @@ updateDeliveryOption(productId, deliveryOptionId){
         matchingItem.deliveryOptionsId= deliveryOptionId;
         this.saveToMemory();
 }
-};
 
-return cart;
 }
 
-const cart = Cart('cart-oop');
-const businessCart=Cart('business-cart');
 
-cart.loadFromStorage();
-businessCart.loadFromStorage();
+
+
+const cart = new Cart('cart-oop');
+const businessCart=new Cart('cart-business');
+
+// Pour voir si notre variable est vraiment une instance de notre objet 
+// console.log(cart instanceof Cart)
+
 
 // cart.addToCart('dd82ca78-a18b-4e2a-9250-31e67412f98d');
+
+
+//Just to show u that u cannot use private properties outside the class
+// cart.#localStorageKey='bonjour';
 console.log(cart);
-console.log(businessCart);
-
-
-
-
-//Apres voir pourquoi moi il me reste tout ça ? 
-//  fonction pour update la quantité de la carte avec le bouton update
-    export function updateQuantity(productId,newQuantity){
-    let matchingItem;
-
-        cart.forEach((cartItem)=>{
-            if(productId===cartItem.productId){
-                matchingItem=cartItem;
-            }
-        });
-        matchingItem.quantity=newQuantity;
-        saveToMemory();
-        document.querySelector(`.js-quantity-label-${productId}`).innerHTML=newQuantity;
-        updateCartQuantity();
-            
-    }
-    function updateCartQuantity(){
-    let totalQuantity=0;
-        cart.forEach((cartItem)=>{
-            totalQuantity+=cartItem.quantity;
-        });
-        // console.log(cart)
-
-        document.querySelector('.js-checkout-item').innerHTML=totalQuantity;
-    }
-
-
-
-
-
+console.log(businessCart); 

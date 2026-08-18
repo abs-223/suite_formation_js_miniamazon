@@ -24,7 +24,7 @@ productsHtml += `
         <div class="product-rating-count link-primary">${product.rating.count}</div>
         </div>
 
-        <div class="product-price">$${(product.priceCents / 100).toFixed(2)}</div>
+        <div class="product-price">${product.getPrice()}</div>
 
         <div class="product-quantity-container">
         <select class="js-quantity-selector-${product.id}">
