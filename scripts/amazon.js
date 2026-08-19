@@ -77,38 +77,10 @@ function updateCartQuantity(){
 
 document.querySelectorAll('.js-add-to-card').forEach((button)=>{
     button.addEventListener('click',()=>{
-<<<<<<< HEAD
-        const productId=button.dataset.productId;
-        
-        let matchingItem;
-        cart.forEach((item)=>{
-            if(productId === item.productId ){
-                matchingItem=item;
-            }
-        })
-        if(matchingItem){
-            matchingItem.quantity+=1;
-        }else{cart.push(
-            {
-                productId:productId,
-                quantity : 1
-            }
-        );
-    }
-    let totalQuantity=0;
-        cart.forEach((item)=>{
-            totalQuantity+=item.quantity;
-        })
-
-        document.querySelector('.js-cart-quantity').innerHTML=totalQuantity;
-        
-    })
-=======
         // au lieu de const productId=button.dataset.productId
         const {productId}=button.dataset;
         addToCart(productId);
         updateCartQuantity();
     
 })
->>>>>>> bdf58cb474fd3ac6e601b60c60599e55ef619db8
 })
