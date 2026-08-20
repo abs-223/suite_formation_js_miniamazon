@@ -158,8 +158,8 @@ export function loadProducts(fun){
   return new Product (productsDetails);
 });
 
+console.log('load products');
 fun();
-console.log('loadproducts');
   })
 
   xhr.open('GET', 'https://supersimplebackend.dev/products');
