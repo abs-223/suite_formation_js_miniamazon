@@ -194,8 +194,8 @@ import { renderPaymentSummary } from "./paymentSummary.js";
 
     document.querySelectorAll(".js-delivery-option").forEach((element) => {
       element.addEventListener("click", () => {
-        const { productId, deliveryOptionId } = element.dataset;
-        updateDeliveryOption(productId, deliveryOptionId);
+        const { productId, deliveryOptionsId } = element.dataset;
+        updateDeliveryOption(productId, deliveryOptionsId);
         renderOrderSummary();
         renderPaymentSummary();
       });
