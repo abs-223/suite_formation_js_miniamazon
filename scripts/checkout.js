@@ -1,6 +1,6 @@
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import {renderPaymentSummary} from "./checkout/paymentSummary.js";
-import {loadProducts} from '../data/products.js'
+import {loadProducts, loadProductsFetch} from '../data/products.js'
 import {loadCart} from '../data/cart.js'
 // import '../data/car.js';
 // import '../data/cart-class.js';
@@ -10,11 +10,8 @@ import {loadCart} from '../data/cart.js'
 
 //Promise.all nous permet d'éxécuter les promises qu'elle contient en même temps sans attendre qu'elles s'éxécutent une à une 
 Promise.all([
-    new Promise((resolve)=>{
-    loadProducts(()=>{
-        resolve();
-    });
-}),
+    //vu que notre ProductsFetch retourne 
+    loadProductsFetch(),
     new Promise ((resolve)=>{
         loadCart(()=>{
             resolve();

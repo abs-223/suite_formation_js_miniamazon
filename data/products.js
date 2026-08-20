@@ -142,6 +142,36 @@ class Product {
 //premùière manière
 export let products = [];
 
+export function loadProductsFetch(){
+  const promise = fetch('https://supersimplebackend.dev/products').then((response)=>{
+    return response.json()
+    //le reponse qui sera contenu dans la promesse du json sera contenu comme parametre dans then()
+  }).then((productsData)=>{
+    
+    products = productsData.map((productsDetails)=>{
+
+  if(productsDetails.type==="clothing"){
+    return new Clothing (productsDetails);
+
+  }
+  if(productsDetails.type==="appliance"){
+    return new Appliance (productsDetails);
+  }
+
+  return new Product (productsDetails);
+});
+console.log('load products');
+
+  })
+
+  return promise;
+
+}
+
+// loadProductsFetch().then(()=>{
+//   console.log('Next steps oubien')
+// })
+
 export function loadProducts(fun){
   const xhr = new XMLHttpRequest();
   xhr.addEventListener('load',()=>{
