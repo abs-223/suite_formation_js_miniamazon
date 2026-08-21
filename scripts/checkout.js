@@ -10,14 +10,26 @@ import {loadCart} from '../data/cart.js'
 //async-await
 
 async function loadPage(){
- 
+try{
+    // throw 'fioun
+    // '
+    // throw  'bruh'
     await loadProductsFetch();
 
-    await new Promise ((resolve)=>{
+    const value = await new Promise ((resolve,reject)=>{
+        // throw 'erro2'
         loadCart(()=>{
-            resolve();
+            //si on veut créer des erreurs avec du code asynchrone (pour le futur)
+            // reject('erro4')
+            //vu que de base notre resolve va dans le then pour les promises mais ici on en a pas 
+            // donc pas on pourra juste la save dans une variable plus haut au niveau de la variable 
+            resolve('value3');
         })
     });
+
+}catch(error){
+    console.log("Unexcepted error try it plz again")
+}
     
     renderOrderSummary();
     renderPaymentSummary();
